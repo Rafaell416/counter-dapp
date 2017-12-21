@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MY DAPP_v2</title>
+    <script src="./web3.min.js"></script>
+    <script type="text/javascript">
+
+      //THIS DATA BELOW IS NOT THE CONTRACT WHICH IS IN THIS FILE
+      //DEPLOY THE CONTRACT TO THE NETWORK AND  PASTE BELLOW THE RIGHT DATA
+      let contract_address = '0x5b99244Fac20d31B477Ef02B20FF5dF3f6027397'
+      let contract_abi = [ { "constant": true, "inputs": [], "name": "getCounter", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "decrease", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "increase", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" } ]
+
+      if (typeof web3 !== 'undefined') {
+          web3 = new Web3(web3.currentProvider)
+      } else {
+          web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"))
+      }
+
+      let contract_instance = web3.eth.contract(contract_abi).at(contract_address)
+
+      function getCounter () {
+        document.getElementById('myCounter').innerText = contract_instance.getCounter().toNumber()
+      }
+
+      function increaseCounter () {
+        let currentNumber = contract_instance.getCounter().toNumber()
+        currentNumber++
+        web3.personal.unlockAccount(eth.accounts[0], 'password')
+        contract_instance.setMyNumber(currentNumber, {
+          from: web3.eth.accounts[0],
+          gas: 200000
+        },(error, result) => {
+            if (error) {
+              console.error(error)
+            }else{
+              let tHash = result
+              console.log(tHash)
+              callWhenMined(tHash, getCounter)
+            }
+        })
+      }
+
+      function callWhenMined (tHash, callback) {
+        web3.eth.getTransactionReceipt(tHash, (err, rcpt) => {
+          if (err) {
+            console.log(err)
+          }else{
+            if (rcpt == null) {
+              setTimeout(()=>{callWhenMined(tHash, callback)}, 500)
+            }else {
+              callback()
+            }
+          }
+        })
+      }
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Interact with a contract</h1>
+    <button onclick="getCounter()">Get Counter</button>
+    <span id="myCounter"></span> Counter
+
+    <br/>
+
+    <button onclick="increaseCounter()">Increase My Counter</button>
+
+
+</body>
+</html>
