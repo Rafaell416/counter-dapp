@@ -86,3 +86,20 @@ at block: 33915 (Fri, 22 Dec 2017 00:57:09 -05)
 ```
 
 and a bunch of logs in the second one
+
+### 5. Create an account
+
+```
+>personal.newAccount('password')
+```
+it should output something like this
+
+```
+"0xa5985f95d7e1087d504bc3ea5edbd60d3a13f538"
+```
+
+### 6. Start mining
+
+```
+>miner.start()
+```
