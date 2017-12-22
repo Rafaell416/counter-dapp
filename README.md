@@ -15,14 +15,15 @@ go-ethereum (an ethereum client written in go-language)
 
 after you install the go-ethereum client, also called geth follow these steps:
 
-###1. open your terminal, create a folder called private-network and move to that folder
+### 1. open your terminal, create a folder called private-network and move to that folder
+
 ```
 mkdir private-network
 cd private-network
 
 ```
 
-###2. once inside the folder create the genesis.json file
+### 2. once inside the folder create the genesis.json file
 ```
 {
 "config": {
@@ -44,13 +45,13 @@ cd private-network
 
 ```
 
-###3. Then create the private network with the following command
+### 3. Then create the private network with the following command
 
 ```
   geth --datadir=./chaindata/ init ./genesis.json
 
 ```
-###4. Now run the private network
+### 4. Now run the private network
 To run the private network in a more confortable way open 2 terminals
 in the second one run this comand
 
