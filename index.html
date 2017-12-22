@@ -8,10 +8,9 @@
     <script src="./web3.min.js"></script>
     <script type="text/javascript">
 
-      //THIS DATA BELOW IS NOT THE CONTRACT WHICH IS IN THIS FILE
-      //DEPLOY THE CONTRACT TO THE NETWORK AND  PASTE BELLOW THE RIGHT DATA
+
       let contract_address = '0x5b99244Fac20d31B477Ef02B20FF5dF3f6027397'
-      let contract_abi = [ { "constant": true, "inputs": [], "name": "getCounter", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "decrease", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "increase", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" } ]
+      let contract_abi = [ { "constant": true, "inputs": [], "name": "getCreator", "outputs": [ { "name": "", "type": "address", "value": "0xa5985f95d7e1087d504bc3ea5edbd60d3a13f538" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "kill", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "myNewNumber", "type": "uint256" } ], "name": "setMyNumber", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getMyNumber", "outputs": [ { "name": "", "type": "uint256", "value": "7" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" } ]
 
       if (typeof web3 !== 'undefined') {
           web3 = new Web3(web3.currentProvider)
@@ -22,13 +21,13 @@
       let contract_instance = web3.eth.contract(contract_abi).at(contract_address)
 
       function getCounter () {
-        document.getElementById('myCounter').innerText = contract_instance.getCounter().toNumber()
+        document.getElementById('myCounter').innerText = contract_instance.getMyNumber().toNumber()
       }
 
       function increaseCounter () {
-        let currentNumber = contract_instance.getCounter().toNumber()
+        let currentNumber = contract_instance.getMyNumber().toNumber()
         currentNumber++
-        web3.personal.unlockAccount(eth.accounts[0], 'password')
+        web3.personal.unlockAccount(web3.eth.accounts[0], 'password')
         contract_instance.setMyNumber(currentNumber, {
           from: web3.eth.accounts[0],
           gas: 200000
